@@ -1,0 +1,10 @@
+{
+    "name": "Srinuunity.Comaudioframework.Editor",
+    "references": [
+      "Srinuunity.Comaudioframework"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

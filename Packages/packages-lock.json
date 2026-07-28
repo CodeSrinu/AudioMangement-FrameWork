@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.srinu_unity.com.audioframework": {
+      "version": "file:com.srinu_unity.com.audioframework",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.test-framework": "1.6.0"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "13.0.5",
       "depth": 0,
