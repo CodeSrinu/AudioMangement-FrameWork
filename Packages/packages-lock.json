@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.srinu_unity.com.audioframework": {
+    "com.audioframework": {
       "version": "file:com.srinu_unity.com.audioframework",
       "depth": 0,
       "source": "embedded",
