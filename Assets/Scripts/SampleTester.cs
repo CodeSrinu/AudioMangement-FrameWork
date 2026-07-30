@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SampleTester : MonoBehaviour
 {
     [SerializeField] private Button mainThemeFadeIn;
-    [SerializeField] private Button playBMG2MusicBtn;
+    [SerializeField] private Button fastBeatFadeInBtn;
     [SerializeField] private Button stopMusicBtn;
     [SerializeField] private Button pauseMusicBtn;
     [SerializeField] private Button resumeMusicBtn;
@@ -15,14 +15,60 @@ public class SampleTester : MonoBehaviour
     [SerializeField] private Button playVoiceBtn;
     [SerializeField] private Button playAmbientBtn;
 
+    [SerializeField] private Slider musicVolume;
+    [SerializeField] private Slider ambienceVolume;
+    [SerializeField] private Slider sfxVolume;
+    [SerializeField] private Slider voiceVolume;
+    [SerializeField] private Slider uiVolume;
+
     private void Start()
     {
-        AudioManager.PlayMusic("MainTheme");
+        
 
-        AudioManager.FadeInAmbient("Forest", 1f);
+        mainThemeFadeIn.onClick.AddListener(() =>
+        {
+            AudioManager.FadeInBGM("MainTheme", 2f);
+        });
+        fastBeatFadeInBtn.onClick.AddListener(() =>
+        {
+            AudioManager.FadeInBGM("FastBeat", 2f);
 
-        AudioManager.SetMusicVolume(0.7f);
-        AudioManager.SetMusicVolume(0.8f);
+        });
+        stopMusicBtn.onClick.AddListener(() =>
+        {
+            AudioManager.StopMusic();
+
+        });
+        pauseMusicBtn.onClick.AddListener(() =>
+        {
+            AudioManager.PauseMusic();
+        });
+        resumeMusicBtn.onClick.AddListener(() =>
+        {
+            AudioManager.ResumeMusic();
+        });
+        crossFadeMusicBtn.onClick.AddListener(() =>
+        {
+            AudioManager.CrossFadeMusic("FastBeat", 5f);
+        });
+        playUISoundBtn.onClick.AddListener(() =>
+        {
+            AudioManager.PlayUI("ButtonClick");
+        });
+        playSFXBtn.onClick.AddListener(() =>
+        {
+            AudioManager.PlaySFX("Rising");
+        });
+
+        playVoiceBtn.onClick.AddListener(() =>
+        {
+            AudioManager.PlayVoice("Welcome");
+        });
+
+        playAmbientBtn.onClick.AddListener(() =>
+        {
+            AudioManager.FadeInAmbient("Forest", 2f);
+        });
     }
 
     private void Update()
