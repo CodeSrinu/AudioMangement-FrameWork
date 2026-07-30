@@ -166,7 +166,6 @@ namespace AudioFramework
 
         public static void PlayVoice(string key)
         {
-            Debug.Log("AudioManager: " + key);
             AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._voicePlayer.PlayVoice(clip);
         }

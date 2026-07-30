@@ -17,7 +17,6 @@ namespace AudioFramework
         {
             if (_audioSource.isPlaying) 
                 _audioSource.Stop();
-            Debug.Log("Play Voice called");
 
             _audioSource.PlayOneShot(clip);
         }
