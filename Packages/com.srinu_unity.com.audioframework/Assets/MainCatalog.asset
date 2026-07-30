@@ -24,4 +24,4 @@ MonoBehaviour:
   - key: Forest
     clip: {fileID: 8300000, guid: 61cf681bf4eb2a8479526a90baa8f9f7, type: 3}
   - key: Welcome
-    clip: {fileID: 8300000, guid: 61cf681bf4eb2a8479526a90baa8f9f7, type: 3}
+    clip: {fileID: 8300000, guid: 121435dfb6b71554b8d601a46861d348, type: 3}
