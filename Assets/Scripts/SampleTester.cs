@@ -1,19 +1,21 @@
 using UnityEngine;
 using AudioFramework;
+using UnityEngine.UI;
 
 public class SampleTester : MonoBehaviour
 {
-    [SerializeField] private AudioClip _bgmMusic;
-    [SerializeField] private AudioClip _bgmMusic2;
-    [SerializeField] private AudioClip _sfxSound;
-    [SerializeField] private AudioClip _voiceClip;
-    [SerializeField] private AudioClip _ambientSound;
+    [SerializeField] private Button playBGMMusicBtn;
+    [SerializeField] private Button playBMG2MusicBtn;
+    [SerializeField] private Button playUISoundBtn;
+    [SerializeField] private Button playSFXBtn;
+    [SerializeField] private Button playVoiceBtn;
+    [SerializeField] private Button playAmbientBtn;
 
     private void Start()
     {
-        AudioManager.PlayMusic(_bgmMusic);
+        AudioManager.PlayMusic("MainTheme");
 
-        AudioManager.FadeInAmbient(_ambientSound, "MainAmbient", 1f);
+        AudioManager.FadeInAmbient("Forest", 1f);
 
         AudioManager.SetMusicVolume(0.7f);
         AudioManager.SetMusicVolume(0.8f);
@@ -23,22 +25,26 @@ public class SampleTester : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.S))
         {
-            AudioManager.PlaySFX(_sfxSound);
+            AudioManager.PlaySFX("Rising");
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            AudioManager.PlaySFX("ButtonClick");
         }
 
         if(Input.GetKeyDown(KeyCode.V))
         {
-            AudioManager.PlayVoice(_voiceClip);
+            AudioManager.PlayVoice("Welcome");
         }
 
         if(Input.GetKeyDown(KeyCode.C))
         {
-            AudioManager.CrossFadeMusic(_bgmMusic2 , 5f);
+            AudioManager.CrossFadeMusic("FastBeat" , 5f);
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            AudioManager.StopAllAmbient();
+            AudioManager.FadeOutAmbient("Forest", 2f);
         }
 
         if(Input.GetKeyDown(KeyCode.M))
@@ -53,7 +59,7 @@ public class SampleTester : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            AudioManager.FadeInBGM(_bgmMusic, 2f);
+            AudioManager.FadeInBGM("MainTheme", 2f);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
