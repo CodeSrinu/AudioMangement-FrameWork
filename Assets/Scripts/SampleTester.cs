@@ -4,8 +4,12 @@ using UnityEngine.UI;
 
 public class SampleTester : MonoBehaviour
 {
-    [SerializeField] private Button playBGMMusicBtn;
+    [SerializeField] private Button mainThemeFadeIn;
     [SerializeField] private Button playBMG2MusicBtn;
+    [SerializeField] private Button stopMusicBtn;
+    [SerializeField] private Button pauseMusicBtn;
+    [SerializeField] private Button resumeMusicBtn;
+    [SerializeField] private Button crossFadeMusicBtn;
     [SerializeField] private Button playUISoundBtn;
     [SerializeField] private Button playSFXBtn;
     [SerializeField] private Button playVoiceBtn;
