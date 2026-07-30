@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace AudioFramework
 {
     public class SFXPool
     {
-        private int _sfxSourcesCount = 10;
         private MonoBehaviour _coroutineRunner;
-        private MixerController _mixerController;
+        private AudioMixerGroup _mixerGroup;
         private List<AudioSource> _pool;
 
 
 
-        public SFXPool(int sfxSourcesCount, MonoBehaviour coroutineRunner, MixerController mixerController)
+        public SFXPool(int sfxSourcesCount, MonoBehaviour coroutineRunner, AudioMixerGroup mixerGroup)
         {
-            _sfxSourcesCount = sfxSourcesCount;
             _coroutineRunner = coroutineRunner;
-            _mixerController = mixerController;
+            _mixerGroup = mixerGroup;
             _pool = new List<AudioSource>();
             CreateAudioSources(sfxSourcesCount);
         }
@@ -27,7 +26,7 @@ namespace AudioFramework
             for(int i = 0; i < count; i++)
             {
                 AudioSource source = _coroutineRunner.gameObject.AddComponent<AudioSource>();
-                source.outputAudioMixerGroup = _mixerController.GetGroup("SFX");
+                source.outputAudioMixerGroup = _mixerGroup;
                 source.playOnAwake = false;
                 _pool.Add(source);
             }
@@ -43,7 +42,7 @@ namespace AudioFramework
             }
 
             AudioSource newSource = _coroutineRunner.gameObject.AddComponent<AudioSource>();
-            newSource.outputAudioMixerGroup = _mixerController.GetGroup("SFX");
+            newSource.outputAudioMixerGroup = _mixerGroup;
             newSource.playOnAwake = false;
             _pool.Add(newSource);
             return newSource;

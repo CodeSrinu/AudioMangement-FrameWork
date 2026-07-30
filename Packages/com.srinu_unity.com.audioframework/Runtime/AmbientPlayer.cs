@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace AudioFramework
 {
     public class AmbientPlayer
     {
         private MonoBehaviour _coroutineRunner;
-        private MixerController _mixerController;
+        private AudioMixerGroup _mixerGroup;
         private Dictionary<string, AudioSource> _audioSources;
 
         private Coroutine fadeInCoroutine;
         private Coroutine fadeOutCoroutine;
 
-        public AmbientPlayer(MixerController mixerController, MonoBehaviour coroutineRunner)
+        public AmbientPlayer(AudioMixerGroup mixerGroup, MonoBehaviour coroutineRunner)
         {
-            _mixerController = mixerController;
+            _mixerGroup = mixerGroup;
             _coroutineRunner = coroutineRunner;
             _audioSources = new Dictionary<string, AudioSource>();
         }
@@ -23,7 +24,7 @@ namespace AudioFramework
         private void CreateNewSource(string key)
         {
             AudioSource newSource = _coroutineRunner.gameObject.AddComponent<AudioSource>();
-            newSource.outputAudioMixerGroup = _mixerController.GetGroup("Ambient");
+            newSource.outputAudioMixerGroup = _mixerGroup;
             _audioSources[key] = newSource;
         }
 

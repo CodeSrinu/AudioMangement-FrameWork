@@ -1,4 +1,3 @@
-using PlasticGui.WorkspaceWindow.Locks;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -19,10 +18,14 @@ namespace AudioFramework
         private SFXPool _sfxPool;
         private VoicePlayer _voicePlayer;
         private AmbientPlayer _ambientPlayer;
+        private UIPlayer _uiPlayer;
+        [Header("AudioCatalog")]
+        [SerializeField] private AudioCatalog _audioCatalog;
 
         private AudioSource _bgmSource1;
         private AudioSource _bgmSource2;
         private AudioSource _voiceSource;
+        private AudioSource _uiSource;
 
         private void Awake()
         {
@@ -52,19 +55,25 @@ namespace AudioFramework
             _bgmPlayer.SetSources(_bgmSource1, _bgmSource2);
 
 
-            _sfxPool = new SFXPool(_sfxSourcesCount, this, _mixerController);
+            _sfxPool = new SFXPool(_sfxSourcesCount, this, _mixerController.GetGroup("SFX"));
 
 
             _voiceSource = gameObject.AddComponent<AudioSource>();
-            _voicePlayer = new VoicePlayer(_voiceSource, _mixerController);
+            _voicePlayer = new VoicePlayer(_voiceSource, _mixerController.GetGroup("Voice"));
 
-            _ambientPlayer = new AmbientPlayer(_mixerController, this);
+            _ambientPlayer = new AmbientPlayer(_mixerController.GetGroup("Ambient"), this);
+
+            _uiSource = gameObject.AddComponent<AudioSource>();
+            _uiPlayer = new UIPlayer(_uiSource, _mixerController.GetGroup("UI"));
+
+            _audioCatalog.Initialize();
 
             LoadVolumes();
         }
 
-        public static void PlayMusic(AudioClip clip)
+        public static void PlayMusic(string key)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._bgmPlayer.Play(clip);
         }
 
@@ -83,8 +92,9 @@ namespace AudioFramework
             Instance._bgmPlayer.Resume();
         }
 
-        public static void CrossFadeMusic(AudioClip clip, float duration)
+        public static void CrossFadeMusic(string key, float duration)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._bgmPlayer.CrossFade(clip, duration);
         }
 
@@ -129,24 +139,32 @@ namespace AudioFramework
             return Instance._mixerController.GetVolume("AmbientVolume");
         }
 
-
-
-        public static void PlaySFX(AudioClip clip)
+        public static void PlayUI(string key)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            Instance._uiPlayer.PlayUI(clip);
+        }
+
+        public static void PlaySFX(string key)
+        {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._sfxPool.PlaySFX(clip);
         }
-        public static void PlayDelayedSFX(AudioClip clip, float delay)
+        public static void PlayDelayedSFX(string key, float delay)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._sfxPool.PlayDelayedSFX(clip, delay);
         }
 
-        public static void PlayVoice(AudioClip voiceClip)
+        public static void PlayVoice(string key)
         {
-            Instance._voicePlayer.PlayVoice(voiceClip);
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            Instance._voicePlayer.PlayVoice(clip);
         }
 
-        public static void PlayAmbient(AudioClip clip, string ambientKey)
+        public static void PlayAmbient(string ambientKey)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(ambientKey);
             Instance._ambientPlayer.PlayAmbient(clip, ambientKey);
         }
 
@@ -160,8 +178,9 @@ namespace AudioFramework
             Instance._ambientPlayer.StopAmbientByKey(ambientKey);
         }
 
-        public static void FadeInBGM(AudioClip clip, float fadeInTime)
+        public static void FadeInBGM(string key, float fadeInTime)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._bgmPlayer.FadeInBGM(clip, fadeInTime);
         }
         public static void FadeOutBGM(float fadeInTime)
@@ -169,14 +188,17 @@ namespace AudioFramework
             Instance._bgmPlayer.FadeOutBGM(fadeInTime);
         }
 
-        public static void FadeInAmbient(AudioClip clip,string ambientKey, float fadeInTime)
+        public static void FadeInAmbient(string ambientKey, float fadeInTime)
         {
+            AudioClip clip = Instance._audioCatalog.GetClip(ambientKey);
             Instance._ambientPlayer.FadeInAmbient(clip, ambientKey, fadeInTime);
         }
         public static void FadeOutAmbient(string ambientKey, float fadeInTime)
         {
             Instance._ambientPlayer.FadeOutAmbient(ambientKey, fadeInTime);
         }
+
+
 
 
         private void SaveVolumes()

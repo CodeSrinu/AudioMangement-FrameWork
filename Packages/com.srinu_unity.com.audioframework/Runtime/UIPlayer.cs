@@ -3,19 +3,21 @@ using UnityEngine.Audio;
 
 namespace AudioFramework
 {
-    public class VoicePlayer
+    public class UIPlayer 
     {
         private AudioSource _audioSource;
 
-        public VoicePlayer(AudioSource audioSource, AudioMixerGroup mixerGroup)
+
+        public UIPlayer(AudioSource audioSource, AudioMixerGroup mixerGroup)
         {
             _audioSource = audioSource;
             _audioSource.outputAudioMixerGroup = mixerGroup;
+            _audioSource.playOnAwake = false;
         }
 
-        public void PlayVoice(AudioClip clip)
+        public void PlayUI(AudioClip clip)
         {
-            if (_audioSource.isPlaying) 
+            if(_audioSource.isPlaying)
                 _audioSource.Stop();
 
             _audioSource.PlayOneShot(clip);
