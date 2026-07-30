@@ -2273,12 +2273,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b56047e77f6a4c48a8da45630b577f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SampleTester
-  playBGMMusicBtn: {fileID: 0}
-  playBMG2MusicBtn: {fileID: 0}
-  playUISoundBtn: {fileID: 0}
-  playSFXBtn: {fileID: 0}
-  playVoiceBtn: {fileID: 0}
-  playAmbientBtn: {fileID: 0}
+  playMusicBtn: {fileID: 938108052}
+  mainThemeFadeInBtn: {fileID: 1532539239}
+  fastBeatFadeInBtn: {fileID: 2120024429}
+  stopMusicBtn: {fileID: 2080072504}
+  pauseMusicBtn: {fileID: 117494786}
+  resumeMusicBtn: {fileID: 299982341}
+  crossFadeToFastBeatBtn: {fileID: 1488640525}
+  musicFadeOutBtn: {fileID: 1661006395}
+  playAmbientBtn: {fileID: 104192959}
+  stopAllAmbientBtn: {fileID: 1679390952}
+  ambientFadeInBtn: {fileID: 498415069}
+  ambientFadeOutBtn: {fileID: 1037228735}
+  playRisingSFXBtn: {fileID: 680437641}
+  playRisingAfter2SecBtn: {fileID: 1083405156}
+  playButtonClickBtn: {fileID: 738842459}
+  playWelcomeBtn: {fileID: 825579244}
+  musicVolumeSlider: {fileID: 334554829}
+  ambienceVolumeSlider: {fileID: 939265626}
+  sfxVolumeSlider: {fileID: 2036492139}
+  uiVolumeSlider: {fileID: 493188085}
+  voiceVolumeSlider: {fileID: 1346743714}
 --- !u!1 &580716340
 GameObject:
   m_ObjectHideFlags: 0

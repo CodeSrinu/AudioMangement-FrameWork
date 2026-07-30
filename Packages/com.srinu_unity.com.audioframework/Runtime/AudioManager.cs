@@ -118,7 +118,11 @@ namespace AudioFramework
         {
             Instance._mixerController.SetVolume("AmbientVolume", vol);
             Instance.SaveVolumes();
-
+        }
+        public static void SetUIVolume(float vol)
+        {
+            Instance._mixerController.SetVolume("UI", vol);
+            Instance.SaveVolumes();
         }
 
 
@@ -138,8 +142,12 @@ namespace AudioFramework
         {
             return Instance._mixerController.GetVolume("AmbientVolume");
         }
+        public static float GetUIVolume()
+        {
+            return Instance._mixerController.GetVolume("UI");
+        }
 
-        public static void PlayUI(string key)
+        public static void PlayUISound(string key)
         {
             AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._uiPlayer.PlayUI(clip);
@@ -150,7 +158,7 @@ namespace AudioFramework
             AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._sfxPool.PlaySFX(clip);
         }
-        public static void PlayDelayedSFX(string key, float delay)
+        public static void PlaySFXDelayed(string key, float delay)
         {
             AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._sfxPool.PlayDelayedSFX(clip, delay);
@@ -178,12 +186,12 @@ namespace AudioFramework
             Instance._ambientPlayer.StopAmbientByKey(ambientKey);
         }
 
-        public static void FadeInBGM(string key, float fadeInTime)
+        public static void FadeInMusic(string key, float fadeInTime)
         {
             AudioClip clip = Instance._audioCatalog.GetClip(key);
             Instance._bgmPlayer.FadeInBGM(clip, fadeInTime);
         }
-        public static void FadeOutBGM(float fadeInTime)
+        public static void FadeOutMusic(float fadeInTime)
         {
             Instance._bgmPlayer.FadeOutBGM(fadeInTime);
         }
