@@ -41,12 +41,14 @@ namespace AudioFramework
 
         public void Stop()
         {
-            _currentSource?.Stop();
+            _currentSource.clip = null;
+            _currentSource.Stop();
         }
 
         public void Pause()
         {
-            _currentSource?.Pause();
+            if(_currentSource.isPlaying)
+                _currentSource.Pause();
         }
 
         public void Resume()
