@@ -66,37 +66,12 @@ public class SampleTester : MonoBehaviour
         uiVolumeSlider.onValueChanged.AddListener(v => AudioManager.SetUIVolume(v));
         voiceVolumeSlider.onValueChanged.AddListener(v => AudioManager.SetVoiceVolume(v));
 
-        ambienceVolumeSlider.value = 1f;
-        musicVolumeSlider.value = 1f;
-        sfxVolumeSlider.value = 1f;
-        voiceVolumeSlider.value = 1f;
-        uiVolumeSlider.value = 1f;
+        ambienceVolumeSlider.value = AudioManager.GetAmbientVolume();
+        musicVolumeSlider.value =AudioManager.GetMusicVolume();
+        sfxVolumeSlider.value = AudioManager.GetSFXVolume();
+        voiceVolumeSlider.value = AudioManager.GetVoiceVolume();
+        uiVolumeSlider.value = AudioManager.GetUIVolume();
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.S))
-    //        AudioManager.PlaySFX("Rising");
 
-    //    if (Input.GetKeyDown(KeyCode.V))
-    //        AudioManager.PlayVoice("Welcome");
-
-    //    if (Input.GetKeyDown(KeyCode.C))
-    //        AudioManager.CrossFadeMusic("FastBeat", 5f);
-
-    //    if (Input.GetKeyDown(KeyCode.Space))
-    //        AudioManager.FadeOutAmbient("Forest", 2f);
-
-    //    if (Input.GetKeyDown(KeyCode.M))
-    //        AudioManager.SetMusicVolume(0f);
-
-    //    if (Input.GetKeyDown(KeyCode.U))
-    //        AudioManager.SetMusicVolume(1f);
-
-    //    if (Input.GetKeyDown(KeyCode.I))
-    //        AudioManager.FadeInMusic("MainTheme", 2f);
-
-    //    if (Input.GetKeyDown(KeyCode.O))
-    //        AudioManager.FadeOutMusic(2f);
-    //}
 }
