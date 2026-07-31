@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Remote
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Remote
+  m_GUID: c451bf2429a28344d89ec26f7a3bb40b
+  m_SerializeEntries:
+  - m_GUID: 121435dfb6b71554b8d601a46861d348
+    m_Address: Welcome
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 189acaf8ce6bff94b8a7ad6784b339b3
+    m_Address: Rising
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61cf681bf4eb2a8479526a90baa8f9f7
+    m_Address: Forest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68b6da4ac5995fd4a92c5a70ff89b98e
+    m_Address: MainTheme
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8911fe766b57f174888277f7ee59b6a6
+    m_Address: FastBeat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 914240c9c564873488eb1aee27a69359
+    m_Address: ButtonClick
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 60b87aa8ec16aa74ca0a16be5c2c1c59, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b0d1b9356ece07140a5cf20fa323d439, type: 2}
+    - {fileID: 11400000, guid: 243bcaf6f0a0c594a9725b421f1e28b1, type: 2}
