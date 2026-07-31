@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AudioFramework
 {
@@ -19,13 +22,24 @@ namespace AudioFramework
         private VoicePlayer _voicePlayer;
         private AmbientPlayer _ambientPlayer;
         private UIPlayer _uiPlayer;
-        [Header("AudioCatalog")]
+
+        [Header("Catalog")]
+        public CatalogLoadLocation loadLocation = CatalogLoadLocation.Local;
+
         [SerializeField] private AudioCatalog _audioCatalog;
+        [SerializeField] private AudioCatalogAddressables _audioCatalogAdressables;
+
+        public enum CatalogLoadLocation
+        {
+            Local,
+            Remote
+        }
 
         private AudioSource _bgmSource1;
         private AudioSource _bgmSource2;
         private AudioSource _voiceSource;
         private AudioSource _uiSource;
+
 
         private void Awake()
         {
@@ -38,7 +52,23 @@ namespace AudioFramework
             DontDestroyOnLoad(gameObject);
 
             Initialize();
+            //StartCoroutine(InitializeAddressables());
         }
+
+        //private IEnumerator InitializeAddressables()
+        //{
+        //    Debug.Log("Initializing Addressables...");
+        //    var initHandle = Addressables.InitializeAsync();
+        //    Debug.Log("Addressables initialized: " + initHandle.Status);
+        //    yield return initHandle;
+
+
+        //    Debug.Log("Checking for catalog updates...");
+        //    var updateHandle = Addressables.UpdateCatalogs();
+        //    Debug.Log("Catalog update status: " + updateHandle.Status);
+        //    yield return updateHandle;
+        //    Addressables.Release(updateHandle);
+        //}
 
         private void Initialize()
         {
@@ -57,7 +87,6 @@ namespace AudioFramework
 
             _sfxPool = new SFXPool(_sfxSourcesCount, this, _mixerController.GetGroup("SFX"));
 
-
             _voiceSource = gameObject.AddComponent<AudioSource>();
             _voicePlayer = new VoicePlayer(_voiceSource, _mixerController.GetGroup("Voice"));
 
@@ -66,15 +95,23 @@ namespace AudioFramework
             _uiSource = gameObject.AddComponent<AudioSource>();
             _uiPlayer = new UIPlayer(_uiSource, _mixerController.GetGroup("UI"));
 
-            _audioCatalog.Initialize();
+
+            if(loadLocation == CatalogLoadLocation.Local && _audioCatalog != null)
+                _audioCatalog.Initialize();
+            else if(_audioCatalogAdressables != null)
+                _audioCatalogAdressables.Initialize();
 
             LoadVolumes();
         }
 
-        public static void PlayMusic(string key)
+        public static async void PlayMusic(string key)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
-            Instance._bgmPlayer.Play(clip);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip != null)
+                Instance._bgmPlayer.Play(clip);
         }
 
         public static void StopMusic()
@@ -92,9 +129,12 @@ namespace AudioFramework
             Instance._bgmPlayer.Resume();
         }
 
-        public static void CrossFadeMusic(string key, float duration)
+        public static async void CrossFadeMusic(string key, float duration)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+            if(clip == null) return;
             Instance._bgmPlayer.CrossFade(clip, duration);
         }
 
@@ -121,7 +161,7 @@ namespace AudioFramework
         }
         public static void SetUIVolume(float vol)
         {
-            Instance._mixerController.SetVolume("UI", vol);
+            Instance._mixerController.SetVolume("UIVolume", vol);
             Instance.SaveVolumes();
         }
 
@@ -144,35 +184,60 @@ namespace AudioFramework
         }
         public static float GetUIVolume()
         {
-            return Instance._mixerController.GetVolume("UI");
+            return Instance._mixerController.GetVolume("UIVolume");
         }
 
-        public static void PlayUISound(string key)
+        public static async void PlayUISound(string key)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip == null) return;
+
             Instance._uiPlayer.PlayUI(clip);
         }
 
-        public static void PlaySFX(string key)
+        public static async void PlaySFX(string key)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip == null) return;
+
             Instance._sfxPool.PlaySFX(clip);
         }
-        public static void PlaySFXDelayed(string key, float delay)
+        public static async void PlaySFXDelayed(string key, float delay)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip == null) return;
+
             Instance._sfxPool.PlayDelayedSFX(clip, delay);
         }
 
-        public static void PlayVoice(string key)
+        public static async void PlayVoice(string key)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip == null) return;
+
             Instance._voicePlayer.PlayVoice(clip);
         }
 
-        public static void PlayAmbient(string ambientKey)
+        public static async void PlayAmbient(string ambientKey)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(ambientKey);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(ambientKey)
+                : await Instance._audioCatalogAdressables.GetClipAsync(ambientKey);
+
+            if (clip == null) return;
+
             Instance._ambientPlayer.PlayAmbient(clip, ambientKey);
         }
 
@@ -186,9 +251,14 @@ namespace AudioFramework
             Instance._ambientPlayer.StopAmbientByKey(ambientKey);
         }
 
-        public static void FadeInMusic(string key, float fadeInTime)
+        public static async void FadeInMusic(string key, float fadeInTime)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(key);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(key)
+                : await Instance._audioCatalogAdressables.GetClipAsync(key);
+
+            if (clip == null) return;
+
             Instance._bgmPlayer.FadeInBGM(clip, fadeInTime);
         }
         public static void FadeOutMusic(float fadeInTime)
@@ -196,9 +266,14 @@ namespace AudioFramework
             Instance._bgmPlayer.FadeOutBGM(fadeInTime);
         }
 
-        public static void FadeInAmbient(string ambientKey, float fadeInTime)
+        public static async void FadeInAmbient(string ambientKey, float fadeInTime)
         {
-            AudioClip clip = Instance._audioCatalog.GetClip(ambientKey);
+            AudioClip clip = Instance.loadLocation == CatalogLoadLocation.Local
+                ? Instance._audioCatalog.GetClip(ambientKey)
+                : await Instance._audioCatalogAdressables.GetClipAsync(ambientKey);
+
+            if (clip == null) return;
+
             Instance._ambientPlayer.FadeInAmbient(clip, ambientKey, fadeInTime);
         }
         public static void FadeOutAmbient(string ambientKey, float fadeInTime)
@@ -215,6 +290,8 @@ namespace AudioFramework
             PlayerPrefs.SetFloat("SFXVolume", GetSFXVolume());
             PlayerPrefs.SetFloat("VoiceVolume", GetVoiceVolume());
             PlayerPrefs.SetFloat("AmbientVolume", GetAmbientVolume());
+            PlayerPrefs.SetFloat("UIVolume", GetUIVolume());
+            PlayerPrefs.Save();
         }
 
         private void LoadVolumes()
@@ -223,6 +300,14 @@ namespace AudioFramework
             SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume", 1f));
             SetVoiceVolume(PlayerPrefs.GetFloat("VoiceVolume", 1f));
             SetAmbientVolume(PlayerPrefs.GetFloat("AmbientVolume", 1f));
+            SetAmbientVolume(PlayerPrefs.GetFloat("UIVolume", 1f));
+
+        }
+
+        private void OnDestroy()
+        {
+            if(loadLocation == CatalogLoadLocation.Remote)
+                _audioCatalogAdressables?.ReleaseAllAssets();
         }
     }
 }

@@ -2,7 +2,7 @@
     "name": "com.audioframework.Editor",
     "rootNamespace": "",
     "references": [
-        "com.audioframework"
+        "GUID:b2d1712aae6b2b34e86d64739a48055d"
     ],
     "includePlatforms": [
         "Editor"
