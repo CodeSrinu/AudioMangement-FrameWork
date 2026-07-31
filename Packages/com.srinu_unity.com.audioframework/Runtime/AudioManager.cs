@@ -1,8 +1,5 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AudioFramework
 {
@@ -52,23 +49,8 @@ namespace AudioFramework
             DontDestroyOnLoad(gameObject);
 
             Initialize();
-            //StartCoroutine(InitializeAddressables());
         }
 
-        //private IEnumerator InitializeAddressables()
-        //{
-        //    Debug.Log("Initializing Addressables...");
-        //    var initHandle = Addressables.InitializeAsync();
-        //    Debug.Log("Addressables initialized: " + initHandle.Status);
-        //    yield return initHandle;
-
-
-        //    Debug.Log("Checking for catalog updates...");
-        //    var updateHandle = Addressables.UpdateCatalogs();
-        //    Debug.Log("Catalog update status: " + updateHandle.Status);
-        //    yield return updateHandle;
-        //    Addressables.Release(updateHandle);
-        //}
 
         private void Initialize()
         {
