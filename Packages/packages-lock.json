@@ -1,12 +1,10 @@
 {
   "dependencies": {
     "com.audioframework": {
-      "version": "file:com.srinu_unity.com.audioframework",
+      "version": "file:C:/Users/Aman/Downloads/package",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.test-framework": "1.6.0"
-      }
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.2d.animation": {
       "version": "13.0.5",
